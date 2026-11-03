@@ -202,7 +202,12 @@ SPECTACULAR_SETTINGS = {
 }
 
 # CORS Configuration
+from corsheaders.defaults import default_headers
+
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'x-session-key',
+]
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^https://.*\.vercel\.app$",
     r"^http://localhost:\d+$",

@@ -16,7 +16,6 @@ const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
-    'X-Session-Key': getSessionKey(),
   },
 });
 
@@ -109,7 +108,11 @@ api.interceptors.request.use((config) => {
   if (token && !isAuthEndpoint) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-  config.headers['X-Session-Key'] = getSessionKey();
+  if (!isAuthEndpoint) {
+    config.headers['X-Session-Key'] = getSessionKey();
+  } else if (config.headers && config.headers['X-Session-Key']) {
+    delete config.headers['X-Session-Key'];
+  }
 
   // Invalidate cache immediately on mutation requests
   if (config.method && ['post', 'put', 'patch', 'delete'].includes(config.method.toLowerCase())) {

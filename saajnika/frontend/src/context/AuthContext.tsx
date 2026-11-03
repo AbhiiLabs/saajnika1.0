@@ -78,7 +78,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return { success: true };
     } catch (err: any) {
       const data = err.response?.data;
-      let errorMsg = 'Registration failed. Please check form values.';
+      let errorMsg = err.response ? 'Registration failed. Please check form values.' : (err.message || 'Network error connecting to backend.');
       if (typeof data === 'string') {
         errorMsg = data;
       } else if (data && typeof data === 'object') {

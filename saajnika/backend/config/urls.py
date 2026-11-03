@@ -2,9 +2,19 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.http import JsonResponse
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 
+def api_root_view(request):
+    return JsonResponse({
+        "service": "SAAJNIKA Atelier & Couture API",
+        "status": "online",
+        "documentation": "/api/docs/",
+        "admin": "/admin/"
+    })
+
 urlpatterns = [
+    path('', api_root_view, name='api-root'),
     path('admin/', admin.site.urls),
 
     # OpenAPI Schema & Interactive Docs
